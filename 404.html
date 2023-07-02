@@ -84,10 +84,6 @@ reload if you trust ;)
       color: #f0f4f8;
     }
 
-    #author_name:hover {
-      text-decoration: underline;
-    }
-
     #author > :last-child {
       display: flex;
       flex-direction: column;
@@ -103,6 +99,19 @@ reload if you trust ;)
     #author_name {
       font-size: max(2vw, 16px);
       font-weight: 600;
+      position: relative;
+    }
+
+    #author_name > span {
+      font-weight: 400;
+
+      position: absolute;
+      margin-left: 6px;
+      top: -6px;
+    }
+
+    #author_name:hover {
+      text-decoration: underline;
     }
 
     #author_handle {
@@ -199,6 +208,9 @@ reload if you trust ;)
     author.href = `https://twitter.com/${data.user.screen_name}`;
     author_name.textContent = data.user.name;
     author_handle.textContent = '@' + data.user.screen_name;
+
+    if (data.user.verified && !data.user.is_blue_verified) author_name.innerHTML += '<span title="probably actually verified">✓</span>';
+    if (data.user.is_blue_verified) author_name.innerHTML += '<span title="twitter blue verified">⚠</span>';
 
     // we want the least load on twitter servers possible, so use a better bigger image
     author_img.src = data.user.profile_image_url_https.replace('_normal', '_400x400');
