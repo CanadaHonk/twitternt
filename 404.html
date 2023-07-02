@@ -1,0 +1,157 @@
+<head>
+
+</head>
+
+<body>
+  <div id="tweet">
+    <a href="" id="author">
+      <img id="author_img">
+      <div>
+        <div id="author_name"></div>
+        <div id="author_handle"></div>
+      </div>
+    </a>
+
+    <p id="content"></p>
+
+    <div id="metadata">
+      <div>
+        <div id="when"></div>
+        <div id="views"></div>
+      </div>&nbsp;
+
+      <div>
+        <div id="retweets"></div>
+        <div id="quotes"></div>
+        <div id="likes"></div>
+        <div id="bookmarks"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+
+      background: #101418;
+      color: #f0f4f8;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #tweet {
+      width: 60vw;
+
+      background: #202428;
+      padding: 2vw;
+      border-radius: 2vw;
+    }
+
+    #author {
+      text-decoration: none;
+
+      display: flex;
+      gap: 1vw;
+      margin-bottom: 1vw;
+      width: fit-content;
+
+      color: #f0f4f8;
+    }
+
+    #author_name:hover {
+      text-decoration: underline;
+    }
+
+    #author > :last-child {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #author_img {
+      width: 5vw;
+      height: 5vw;
+      border-radius: 50%;
+    }
+
+    #author_name {
+      font-size: 2vw;
+      font-weight: 600;
+    }
+
+    #author_handle {
+      font-size: 1vw;
+      font-weight: 400;
+      color: #a0a4a8;
+    }
+
+    #content {
+      font-size: 1.6vw;
+      color: #f0f4f8;
+
+      margin-bottom: 2vw;
+    }
+
+    #metadata {
+      border-top: 1px solid #a0a4a8;
+      padding-top: 1vw;
+
+      color: #a0a4a8;
+      font-size: 1.3vw;
+
+      display: flex;
+    }
+
+    #content a {
+      color: rgb(249, 24, 128);
+      display: inline;
+      text-decoration: none;
+    }
+
+    #content a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <script> (async () => {
+    const id = location.href.split('/').pop();
+
+    // now that's what I call jank™
+    const data = await (await fetch(`https://corsproxy.io/?https://cdn.syndication.twimg.com/tweet-result?id=${id}`)).json();
+    window.data = data;
+
+    const createdAt = new Date(data.created_at);
+    let hours = createdAt.getHours();
+    let ind = 'am';
+    if (hours >= 12) {
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+      ind = 'pm';
+    }
+
+    when.textContent = `${hours}:${createdAt.getMinutes().toString().padStart(2, '0')} ${ind} · ${createdAt.toLocaleString('default', { month: 'long' })} ${createdAt.getDate()}, ${createdAt.getFullYear()}`;
+
+    likes.textContent = '· ' + data.favorite_count + ' likes';
+
+    author.href = `https://twitter.com/${data.user.screen_name}`;
+    author_name.textContent = data.user.name;
+    author_handle.textContent = '@' + data.user.screen_name;
+    author_img.src = data.user.profile_image_url_https;
+
+    content.textContent = data.text;
+
+    for (const x of data.entities.urls) {
+      content.innerHTML = content.innerHTML.replace(x.url, `<a href="${x.expanded_url}">${x.display_url}</a>`)
+    }
+  })() </script>
+</body>
