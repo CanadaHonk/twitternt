@@ -124,6 +124,9 @@
   </style>
 
   <script> (async () => {
+    let href = location.href;
+    if (href.endsWith('/')) href = href.slice(0, -1);
+
     const id = location.href.split('/').pop();
 
     // now that's what I call jank™
