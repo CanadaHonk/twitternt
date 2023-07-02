@@ -28,10 +28,11 @@ reload if you trust ;)
       </div>&nbsp;
 
       <div>
-        <div id="retweets"></div>
-        <div id="quotes"></div>
-        <div id="likes"></div>
-        <div id="bookmarks"></div>
+        <span id="retweets"></span>
+        <span id="quotes"></span>
+        <span id="likes"></span>
+        <span id="bookmarks"></span>
+        <span id="replies"></span>
       </div>
     </div>
   </div>
@@ -192,7 +193,8 @@ reload if you trust ;)
 
     when.textContent = `${hours}:${createdAt.getMinutes().toString().padStart(2, '0')} ${ind} · ${createdAt.toLocaleString('default', { month: 'long' })} ${createdAt.getDate()}, ${createdAt.getFullYear()}`;
 
-    likes.textContent = '· ' + data.favorite_count + ' likes';
+    if (data.favorite_count) likes.textContent = '| ' + data.favorite_count + ' likes';
+    if (data.conversation_count) replies.textContent = '· ' + data.conversation_count + ' replies';
 
     author.href = `https://twitter.com/${data.user.screen_name}`;
     author_name.textContent = data.user.name;
