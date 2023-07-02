@@ -167,7 +167,7 @@ reload if you trust ;)
     let href = location.href;
     if (href.endsWith('/')) href = href.slice(0, -1);
 
-    const id = '1675596365450051589'; // location.href.split('/').pop();
+    const id = location.href.split('/').pop();
 
     // now that's what I call jank™
     const data = await (await fetch(`https://corsproxy.io/?https://cdn.syndication.twimg.com/tweet-result?id=${id}`)).json();
