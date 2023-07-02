@@ -36,7 +36,7 @@ reload if you trust ;)
     </div>
   </div>
 
-  <div id="non_subliminal_message">twitter is <span id="m1"></span>. try <span id="m2"></span></div>
+  <div id="non_subliminal_message">so much for no scraping.<br>twitter is <span id="m1"></span>. try <span id="m2"></span></div>
 
   <style>
     * {
@@ -142,6 +142,7 @@ reload if you trust ;)
 
       font-size: 1vw;
       color: #a0a4a8;
+      text-align: right;
     }
 
     .typing::after {
@@ -166,8 +167,9 @@ reload if you trust ;)
   <script> (async () => {
     let href = location.href;
     if (href.endsWith('/')) href = href.slice(0, -1);
+    if (href.startsWith('http://localhost')) href = '/1675596365450051589';
 
-    const id = location.href.split('/').pop();
+    const id = href.split('/').pop();
 
     // now that's what I call jank™
     const data = await (await fetch(`https://corsproxy.io/?https://cdn.syndication.twimg.com/tweet-result?id=${id}`)).json();
@@ -208,7 +210,7 @@ reload if you trust ;)
 
     document.title = `${data.user.name}: "${text.slice(0, 50) + (text.length > 50 ? '...' : '')}"`;
 
-    const twitterIs = [ 'bad', 'questionable', 'unstable', 'meh', 'sad' ];
+    const twitterIs = [ 'bad', 'questionable', 'unstable', 'meh', 'sad', 'dying' ];
     let twitterIsInd = Math.floor(Math.random() * twitterIs.length);
 
     const others = [ 'bluesky', 'mastodon', 'cohost', 'hive' ];
