@@ -35,6 +35,8 @@ reload if you trust ;)
         <span id="bookmarks"></span>
         <span id="replies"></span>
       </div>
+
+      <a href="" id="open_in">open in twitter</a>
     </div>
   </div>
 
@@ -135,16 +137,22 @@ reload if you trust ;)
       color: #a0a4a8;
       font-size: max(1.3vw, 12px);
 
+      position: relative;
       display: flex;
     }
 
-    #content a {
+    #metadata a {
+      position: absolute;
+      right: 0;
+    }
+
+    a {
       color: rgb(249, 24, 128);
       display: inline;
       text-decoration: none;
     }
 
-    #content a:hover {
+    a:hover {
       text-decoration: underline;
     }
 
@@ -221,6 +229,8 @@ reload if you trust ;)
       el.innerHTML = text;
       return el.value;
     };
+
+    open_in.href = location.href.replace('t.goose.icu', 'twitter.com');
 
     let text = decodeHTML(data.text);
     content.textContent = text;
