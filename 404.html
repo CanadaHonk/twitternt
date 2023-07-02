@@ -170,10 +170,13 @@ reload if you trust ;)
       return el.value;
     };
 
-    content.textContent = decodeHTML(data.text);
+    let text = decodeHTML(data.text);
+    content.textContent = text;
 
     for (const x of data.entities.urls) {
       content.innerHTML = content.innerHTML.replace(x.url, `<a href="${x.expanded_url}">${x.display_url}</a>`)
     }
+
+    document.title = `${data.user.name}: "${text.slice(0, 50) + (text.length > 50 ? '...' : '')}"`;
   })() </script>
 </body>
